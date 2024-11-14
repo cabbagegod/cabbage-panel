@@ -33,7 +33,7 @@ namespace CHPanel.Views.Windows
             navigationService.SetNavigationControl(RootNavigation);
 
             navService = navigationService;
-            this.pageService = pageService; ;
+            this.pageService = pageService;
             
             Instance = this;
         }
