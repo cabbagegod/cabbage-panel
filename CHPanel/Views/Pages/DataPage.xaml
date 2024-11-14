@@ -1,0 +1,60 @@
+<Page
+    x:Class="CHPanel.Views.Pages.DataPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CHPanel.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:CHPanel.Models"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="DataPage"
+    d:DataContext="{d:DesignInstance local:DataPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ScrollViewer.CanContentScroll="False"
+    mc:Ignorable="d">
+    
+    <Grid>
+        <!--List buttons and stats-->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <!--Left-->
+            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                <ui:Button HorizontalAlignment="Stretch" Height="40" Background="#33A851" MouseOverBackground="#32954B" PressedBackground="#216E35" Margin="0,0,0,5" IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                    <ui:Button.Content>
+                        <TextBlock Text="Start" FontSize="20" FontWeight="Medium"/>
+                    </ui:Button.Content>
+                </ui:Button>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                <ui:Button HorizontalAlignment="Stretch" Height="40" Margin="0,0,0,10" IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                    <ui:Button.Content>
+                        <TextBlock Text="Restart" FontSize="20" FontWeight="Medium"/>
+                    </ui:Button.Content>
+                </ui:Button>
+                <ui:Card HorizontalAlignment="Stretch" Height="80">
+                    <ui:Card.Content>
+                        <StackPanel Orientation="Vertical">
+                            <ui:TextBlock Text="Cpu Usage"></ui:TextBlock>
+                            <ui:TextBlock FontSize="20" Text="of 123"></ui:TextBlock>
+                        </StackPanel>
+                    </ui:Card.Content>
+                </ui:Card>
+                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5"></ProgressBar>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                <ui:Button HorizontalAlignment="Stretch" Height="40" FontSize="1" FontWeight="Medium" Background="#FF0019" MouseOverBackground="#D30012" PressedBackground="#C00012" Margin="0,0,0,5" IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                    <ui:Button.Content>
+                        <TextBlock Text="Stop" FontSize="20" FontWeight="Medium"/>
+                    </ui:Button.Content>
+                </ui:Button>
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Page>

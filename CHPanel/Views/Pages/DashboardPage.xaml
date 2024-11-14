@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="CHPanel.Views.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CHPanel.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:dtos="clr-namespace:CHPanel.Models.Dtos"
+    xmlns:models="clr-namespace:CHPanel.Models"
+    Title="DashboardPage"
+    d:DataContext="{d:DesignInstance local:DashboardPage,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ui:VirtualizingItemsControl
+            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+            ItemsSource="{Binding ViewModel.Servers, Mode=OneWay}"
+            VirtualizingPanel.CacheLengthUnit="Item">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:ServerData}">
+                    <ui:Button
+                        Width="680"
+                        Height="80"
+                        Margin="2"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Appearance="Secondary"
+                        FontSize="25"
+                        Icon="Fluent24"
+                        Click="OnServerClicked">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="680">
+                                <Rectangle Name="OnlineStatus" Width="15" Height="80" Fill="{Binding StatusColor}" />
+
+                                <!--Name-->
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="300" Margin="10,0,0,0">
+                                    <ui:TextBlock Text="{Binding Name}" HorizontalAlignment="Left" FontSize="20" />
+                                    <ui:TextBlock Text="{Binding Ip}" HorizontalAlignment="Left" FontSize="14" />
+                                </StackPanel>
+
+                                <!--CPU-->
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="120">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ui:SymbolIcon Symbol="Server16" />
+                                        <ui:TextBlock Text="{Binding CurrentCpu}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="16" MaxWidth="200" />
+                                    </StackPanel>
+                                    <ui:TextBlock Text="{Binding MaxCpu}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="14" MaxWidth="200" />
+                                </StackPanel>
+
+                                <!--RAM-->
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="120">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ui:SymbolIcon Symbol="Ram16" />
+                                        <ui:TextBlock Text="{Binding CurrentMemory}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="16" MaxWidth="200" />
+                                    </StackPanel>
+                                    <ui:TextBlock Text="{Binding MaxMemory}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="14" MaxWidth="200" />
+                                </StackPanel>
+
+                                <!--Storage-->
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="120">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <ui:SymbolIcon Symbol="Storage20" />
+                                        <ui:TextBlock Text="{Binding CurrentDisk}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="16" MaxWidth="200" />
+                                    </StackPanel>
+                                    <ui:TextBlock Text="{Binding MaxDisk}" HorizontalAlignment="Center" Margin="10,0,0,0" FontSize="14" MaxWidth="200" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Button.Content>
+                    </ui:Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ui:VirtualizingItemsControl>
+    </Grid>
+</Page>
