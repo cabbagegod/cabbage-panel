@@ -17,44 +17,85 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ScrollViewer.CanContentScroll="False"
     mc:Ignorable="d">
-    
+
     <Grid>
         <!--List buttons and stats-->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <!--Left-->
-            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
-                <ui:Button HorizontalAlignment="Stretch" Height="40" Background="#33A851" MouseOverBackground="#32954B" PressedBackground="#216E35" Margin="0,0,0,5" IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
-                    <ui:Button.Content>
-                        <TextBlock Text="Start" FontSize="20" FontWeight="Medium"/>
-                    </ui:Button.Content>
-                </ui:Button>
-            </StackPanel>
-            
-            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
-                <ui:Button HorizontalAlignment="Stretch" Height="40" Margin="0,0,0,10" IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
-                    <ui:Button.Content>
-                        <TextBlock Text="Restart" FontSize="20" FontWeight="Medium"/>
-                    </ui:Button.Content>
-                </ui:Button>
-                <ui:Card HorizontalAlignment="Stretch" Height="80">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="620">
+                <ui:Card Width="200" Height="80" Margin="0,0,5,0">
                     <ui:Card.Content>
                         <StackPanel Orientation="Vertical">
-                            <ui:TextBlock Text="Cpu Usage"></ui:TextBlock>
-                            <ui:TextBlock FontSize="20" Text="of 123"></ui:TextBlock>
+                            <ui:TextBlock Text="ONLINE"></ui:TextBlock>
+                            <ui:TextBlock FontSize="20" Text="Some Server"></ui:TextBlock>
+                            <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5"></ProgressBar>
                         </StackPanel>
                     </ui:Card.Content>
                 </ui:Card>
-                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5"></ProgressBar>
+                <ui:Card Width="410" Height="80" Margin="5,0,0,0">
+                    <ui:Card.Content>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="CPU" Margin="0,0,10,0"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#CC27AD15"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="RAM" Margin="0,0,10,0"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#AF0000CE"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="Storage" Margin="0,0,10,0"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#A5A629B3"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </ui:Card.Content>
+                </ui:Card>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <!--Left-->
+                <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                    <ui:Button HorizontalAlignment="Stretch" Height="40" Background="#33A851"
+                               MouseOverBackground="#32954B" PressedBackground="#216E35" Margin="0,0,0,5"
+                               IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                        <ui:Button.Content>
+                            <TextBlock Text="Start" FontSize="20" FontWeight="Medium" />
+                        </ui:Button.Content>
+                    </ui:Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                    <ui:Button HorizontalAlignment="Stretch" Height="40" Margin="0,0,0,10"
+                               IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                        <ui:Button.Content>
+                            <TextBlock Text="Restart" FontSize="20" FontWeight="Medium" />
+                        </ui:Button.Content>
+                    </ui:Button>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
+                    <ui:Button HorizontalAlignment="Stretch" Height="40" FontSize="1" FontWeight="Medium"
+                               Background="#FF0019" MouseOverBackground="#D30012" PressedBackground="#C00012"
+                               Margin="0,0,0,5" IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                        <ui:Button.Content>
+                            <TextBlock Text="Stop" FontSize="20" FontWeight="Medium" />
+                        </ui:Button.Content>
+                    </ui:Button>
+                </StackPanel>
             </StackPanel>
             
-            <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
-                <ui:Button HorizontalAlignment="Stretch" Height="40" FontSize="1" FontWeight="Medium" Background="#FF0019" MouseOverBackground="#D30012" PressedBackground="#C00012" Margin="0,0,0,5" IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay}">
-                    <ui:Button.Content>
-                        <TextBlock Text="Stop" FontSize="20" FontWeight="Medium"/>
-                    </ui:Button.Content>
-                </ui:Button>
-            </StackPanel>
-            
+            <ui:Card HorizontalAlignment="Stretch" Height="300">
+                <ui:Card.Content>
+                    <StackPanel Orientation="Vertical">
+                        <ui:TextBlock Text="Console here" Height="260"></ui:TextBlock>
+                    </StackPanel>
+                </ui:Card.Content>
+            </ui:Card>
         </StackPanel>
     </Grid>
 </Page>

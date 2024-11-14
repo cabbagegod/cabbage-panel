@@ -10,8 +10,8 @@ namespace CHPanel.Views.Pages {
 	public partial class DashboardPage : INavigableView<DashboardViewModel> {
 		public DashboardViewModel ViewModel { get; }
 
-		private INavigationService navService;
-		private DataViewModel dataVm;
+		private readonly INavigationService navService;
+		private readonly DataViewModel dataVm;
 		
 		public DashboardPage(DashboardViewModel viewModel, INavigationService navigationService, DataViewModel dataViewModel) {
 			ViewModel = viewModel;
