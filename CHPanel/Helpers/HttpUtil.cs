@@ -8,7 +8,7 @@ public static class HttpUtil {
 	private static HttpClient Client => client ??= new HttpClient();
 	private static HttpClient? client;
 
-	private const string urlBase = "http://10.0.0.203/";
+	public static string urlBase = "http://10.0.0.203/";
 	
 	public static async Task<T?> GetAsync<T>(string endpoint, string apiKey = "") {
 		EnsureHttpHeaders(apiKey);

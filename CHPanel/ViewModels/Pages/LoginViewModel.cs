@@ -15,6 +15,7 @@ using CHPanel.Data;
 using System.Text.Json.Serialization;
 using CHPanel.Helpers;
 using CHPanel.Models.Dtos;
+using MessageBox = System.Windows.MessageBox;
 
 namespace CHPanel.ViewModels.Pages {
 	public partial class LoginViewModel : ObservableObject {
@@ -32,6 +33,8 @@ namespace CHPanel.ViewModels.Pages {
 
 			_relayCommand = new RelayCommand(SaveApiKeyClick);
 
+			TryLoadCustomUrl();
+            
 			keyPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "/chpanel";
 			TryLoadApiKey();
 		}
@@ -76,5 +79,16 @@ namespace CHPanel.ViewModels.Pages {
 
             File.WriteAllText(keyPath + "/chpanel.key", ApiKey);
         }
+
+		private static void TryLoadCustomUrl() {
+			string customUrl = CustomUrlUtil.TryGetCustomUrl();
+			if (string.IsNullOrEmpty(customUrl))
+				return;
+
+			if (customUrl[^1] != '/')
+				MessageBox.Show("The Custom URL for this app does not seem to be configured correctly. Please contact an administrator.", "Critical Failure");
+			
+			HttpUtil.urlBase = customUrl;
+		}
 	}
 }
