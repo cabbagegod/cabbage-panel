@@ -5,7 +5,7 @@ An open source software application for browsing a pterodactyl panel.
 Cabbage Panel allows you to browse and explore any Pterodactyl host through a standalone Windows application. Cabbage Panel is written in C#/.NET and utilizes the Windows Presentation Foundation (WPF) framework. The modern Windows aesthetic is achieved through [WPF UI](https://wpfui.lepo.co/). Access to the host is acquired through the vanilla Pterodactyl API, and simply requires you to enter a client API key to log in.
 
 ## How to set a custom host
-To easily customize the URL that the application points to, simply modify the `customUrl.panel` file contained within the same directory as the executable. Ensure that this URL ends with a "/"- you will get an error when attempting to run the application if it does not. Once you run the program after having set this value, your application will now point to the target host.
+To easily customize the URL that the application points to, simply modify the `customUrl.panel` file contained within the same directory as the executable. Ensure that this URL ends with a "/" or you will get an error when attempting to run the application if it does not. Once you run the program after having set this value, your application will now point to the target host.
 ![image](https://github.com/user-attachments/assets/2d63cfbc-2186-4511-8206-811b5c261042)
 
 ## Issues and requests
