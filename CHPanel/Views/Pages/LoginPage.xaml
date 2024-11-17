@@ -17,7 +17,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ui:TextBox x:Name="KeyInput" HorizontalAlignment="Left" VerticalAlignment="Top"  TextWrapping="WrapWithOverflow" Text="{Binding ViewModel.ApiKey, Mode=TwoWay}" PlaceholderText="Enter API Key" Margin="58,6,0,0" Width="572"/>
+        <ui:PasswordBox x:Name="KeyInput" HorizontalAlignment="Left" VerticalAlignment="Top"  TextWrapping="WrapWithOverflow" Text="{Binding ViewModel.ApiKey, Mode=TwoWay}" PlaceholderText="Enter API Key" Margin="58,6,0,0" Width="572"/>
         <ui:Button x:Name="SaveButton" Content="Save" Command="{Binding ViewModel.RelayCommand, Mode=OneWay}" Margin="0,8,0,0" VerticalAlignment="Top"/>
         <ui:TextBox x:Name="Name" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding ViewModel.Username,  Mode=OneWay}" VerticalAlignment="Bottom" Width="249" IsReadOnly="True" IsReadOnlyCaretVisible="False" Margin="0,0,0,30"/>
     </Grid>

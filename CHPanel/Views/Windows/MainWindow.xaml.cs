@@ -4,83 +4,71 @@ using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
-namespace CHPanel.Views.Windows
-{
-    public partial class MainWindow : INavigationWindow
-    {
-        public MainWindowViewModel ViewModel { get; }
+namespace CHPanel.Views.Windows {
+	public partial class MainWindow : INavigationWindow {
+		public MainWindowViewModel ViewModel { get; }
 
-        private INavigationService navService;
+		private INavigationService navService;
 
-        private IPageService pageService;
+		private IPageService pageService;
 
-        public static MainWindow? Instance { get; private set; }
+		public static MainWindow? Instance { get; private set; }
 
-        public MainWindow(
-            MainWindowViewModel viewModel,
-            IPageService pageService,
-            INavigationService navigationService
-        )
-        {
-            ViewModel = viewModel;
-            DataContext = this;
+		public MainWindow(MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService) {
+			ViewModel = viewModel;
+			DataContext = this;
 
-            SystemThemeWatcher.Watch(this);
+			SystemThemeWatcher.Watch(this);
 
-            InitializeComponent();
-            SetPageService(pageService);
+			InitializeComponent();
+			SetPageService(pageService);
 
-            navigationService.SetNavigationControl(RootNavigation);
+			navigationService.SetNavigationControl(RootNavigation);
 
-            navService = navigationService;
-            this.pageService = pageService;
-            
-            Instance = this;
-        }
+			navService = navigationService;
+			this.pageService = pageService;
 
-        #region INavigationWindow methods
+			Instance = this;
+		}
 
-        public INavigationView GetNavigation() => RootNavigation;
+		#region INavigationWindow methods
 
-        public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
+		public INavigationView GetNavigation() => RootNavigation;
 
-        public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
+		public bool Navigate(Type pageType) => RootNavigation.Navigate(pageType);
 
-        public void ShowWindow() => Show();
+		public void SetPageService(IPageService pageService) => RootNavigation.SetPageService(pageService);
 
-        public void CloseWindow() => Close();
+		public void ShowWindow() => Show();
 
-        #endregion INavigationWindow methods
+		public void CloseWindow() => Close();
 
-        public void RefreshNav()
-        {
-            RootNavigation.MenuItems.Clear();
+		#endregion INavigationWindow methods
 
-            foreach (var item in ViewModel.MenuItems)
-            {
-                RootNavigation.MenuItems.Add(item);
-            }
-        }
+		public void RefreshNav() {
+			RootNavigation.MenuItems.Clear();
 
-        /// <summary>
-        /// Raises the closed event.
-        /// </summary>
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
+			foreach (var item in ViewModel.MenuItems) {
+				RootNavigation.MenuItems.Add(item);
+			}
+		}
 
-            // Make sure that closing this window will begin the process of closing the application.
-            Application.Current.Shutdown();
-        }
+		/// <summary>
+		/// Raises the closed event.
+		/// </summary>
+		protected override void OnClosed(EventArgs e) {
+			base.OnClosed(e);
 
-        INavigationView INavigationWindow.GetNavigation()
-        {
-            throw new NotImplementedException();
-        }
+			// Make sure that closing this window will begin the process of closing the application.
+			Application.Current.Shutdown();
+		}
 
-        public void SetServiceProvider(IServiceProvider serviceProvider)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		INavigationView INavigationWindow.GetNavigation() {
+			throw new NotImplementedException();
+		}
+
+		public void SetServiceProvider(IServiceProvider serviceProvider) {
+			throw new NotImplementedException();
+		}
+	}
 }

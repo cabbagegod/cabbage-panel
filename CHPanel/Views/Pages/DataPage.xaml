@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:CHPanel.Models"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:helpers="clr-namespace:CHPanel.Helpers"
     Title="DataPage"
     d:DataContext="{d:DesignInstance local:DataPage,
                                      IsDesignTimeCreatable=False}"
@@ -18,38 +19,173 @@
     ScrollViewer.CanContentScroll="False"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <helpers:InverseBoolConverter x:Key="InverseBoolConverter" />
+        
+        <Style TargetType="{x:Type TabControl}">
+        <Setter Property="Foreground" Value="{DynamicResource TabViewForeground}" />
+        <Setter Property="Background" Value="{DynamicResource TabViewBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource TabViewBorderBrush}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TabPanel
+                            x:Name="HeaderPanel"
+                            Grid.Row="0"
+                            Margin="0"
+                            Panel.ZIndex="1"
+                            Background="Transparent"
+                            IsItemsHost="True"
+                            KeyboardNavigation.TabIndex="1" />
+                        <Border
+                            x:Name="Border"
+                            Grid.Row="1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0,1,0,0"
+                            CornerRadius="0,4,4,4"
+                            KeyboardNavigation.DirectionalNavigation="Contained"
+                            KeyboardNavigation.TabIndex="2"
+                            KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter
+                                x:Name="PART_SelectedContentHost"
+                                Margin="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                ContentSource="SelectedContent"
+                                TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Background" Value="{DynamicResource TabViewItemHeaderBackground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid x:Name="Root">
+                        <Border
+                            x:Name="Border"
+                            MinWidth="180"
+                            MinHeight="36"
+                            Margin="0"
+                            Padding="6"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1,1,1,0"
+                            CornerRadius="8,8,0,0">
+                            <ContentPresenter
+                                x:Name="ContentSite"
+                                Margin="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                ContentSource="Header"
+                                RecognizesAccessKey="True" />
+                        </Border>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected" />
+
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Opacity)"
+                                            From="0.0"
+                                            To="0.5"
+                                            Duration="0:0:.16" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonBackground}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource TabViewSelectedItemBorderBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TabViewItemForegroundSelected}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    </Page.Resources>
+    
     <Grid>
-        <!--List buttons and stats-->
         <StackPanel Orientation="Vertical">
+            <!--Server tabs-->
+            <TabControl VerticalAlignment="Bottom" ItemsSource="{Binding ViewModel.SelectedServers, Mode=OneWay}" Height="40" SelectionChanged="ClickedTab" >
+                <TabControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:ServerData}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+            </TabControl>
+                
+            <!--Server stats-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="620">
-                <ui:Card Width="200" Height="80" Margin="0,0,5,0">
+                <ui:Card Width="200" Height="90" Margin="0,0,5,0">
                     <ui:Card.Content>
                         <StackPanel Orientation="Vertical">
-                            <ui:TextBlock Text="ONLINE"></ui:TextBlock>
-                            <ui:TextBlock FontSize="20" Text="Some Server"></ui:TextBlock>
-                            <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5"></ProgressBar>
+                            <ui:TextBlock Text="{Binding ViewModel.ServerData.Status}" Foreground="{Binding ViewModel.ServerData.StatusColor}"></ui:TextBlock>
+                            <ui:TextBlock FontSize="20" Text="{Binding ViewModel.ServerData.Name}"></ui:TextBlock>
                         </StackPanel>
                     </ui:Card.Content>
                 </ui:Card>
-                <ui:Card Width="410" Height="80" Margin="5,0,0,0">
+                <ui:Card Width="410" Height="90" Margin="5,0,0,0">
                     <ui:Card.Content>
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="CPU" Margin="0,0,10,0"/>
-                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
-                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#CC27AD15"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="100" Text="{Binding ViewModel.ServerData.RawCpuStats}" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="{Binding ViewModel.ServerData.CpuUsage, Mode=OneWay}" Height="5" Width="215" Foreground="#CC27AD15"/>
                             </StackPanel>
                             
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="RAM" Margin="0,0,10,0"/>
-                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
-                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#AF0000CE"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="100" Text="{Binding ViewModel.ServerData.RawMemoryStats}" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="{Binding ViewModel.ServerData.MemoryUsage, Mode=OneWay}" Height="5" Width="215" Foreground="#AF0000CE"/>
                             </StackPanel>
                             
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBlock FontSize="12" FontWeight="Bold" Width="44" Text="Storage" Margin="0,0,10,0"/>
-                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="50" Text="1/1" TextAlignment="Right" Margin="0,0,10,0"/>
-                                <ProgressBar Minimum="0" Maximum="100" Value="70" Height="5" Width="250" Foreground="#A5A629B3"/>
+                                <ui:TextBlock FontSize="12" FontWeight="Bold" Width="100" Text="{Binding ViewModel.ServerData.RawDiskStats}" TextAlignment="Right" Margin="0,0,10,0"/>
+                                <ProgressBar Minimum="0" Maximum="100" Value="{Binding ViewModel.ServerData.DiskUsage, Mode=OneWay}" Height="5" Width="215" Foreground="#A5A629B3"/>
                             </StackPanel>
                             
                         </StackPanel>
@@ -57,12 +193,13 @@
                 </ui:Card>
             </StackPanel>
 
+            <!--Power Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <!--Left-->
                 <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
                     <ui:Button HorizontalAlignment="Stretch" Height="40" Background="#33A851"
                                MouseOverBackground="#32954B" PressedBackground="#216E35" Margin="0,0,0,5"
-                               IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                               IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" Click="OnStartClicked">
                         <ui:Button.Content>
                             <TextBlock Text="Start" FontSize="20" FontWeight="Medium" />
                         </ui:Button.Content>
@@ -71,7 +208,7 @@
 
                 <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
                     <ui:Button HorizontalAlignment="Stretch" Height="40" Margin="0,0,0,10"
-                               IsEnabled="{Binding !ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                               IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" Click="OnRestartClicked">
                         <ui:Button.Content>
                             <TextBlock Text="Restart" FontSize="20" FontWeight="Medium" />
                         </ui:Button.Content>
@@ -81,7 +218,7 @@
                 <StackPanel Orientation="Vertical" Margin="5,0,5,0" Width="200">
                     <ui:Button HorizontalAlignment="Stretch" Height="40" FontSize="1" FontWeight="Medium"
                                Background="#FF0019" MouseOverBackground="#D30012" PressedBackground="#C00012"
-                               Margin="0,0,0,5" IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay}">
+                               Margin="0,0,0,5" IsEnabled="{Binding ViewModel.ServerData.IsOnline, Mode=OneWay}" Click="OnStopClicked">
                         <ui:Button.Content>
                             <TextBlock Text="Stop" FontSize="20" FontWeight="Medium" />
                         </ui:Button.Content>
@@ -92,7 +229,7 @@
             <ui:Card HorizontalAlignment="Stretch" Height="300">
                 <ui:Card.Content>
                     <StackPanel Orientation="Vertical">
-                        <ui:TextBlock Text="Console here" Height="260"></ui:TextBlock>
+                        <ui:TextBlock Text="{Binding ViewModel.ServerData.RawStatus}" Height="260"></ui:TextBlock>
                     </StackPanel>
                 </ui:Card.Content>
             </ui:Card>

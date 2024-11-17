@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:CHPanel.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:dtos="clr-namespace:CHPanel.Models.Dtos"
     xmlns:models="clr-namespace:CHPanel.Models"
     Title="DashboardPage"
     d:DataContext="{d:DesignInstance local:DashboardPage,

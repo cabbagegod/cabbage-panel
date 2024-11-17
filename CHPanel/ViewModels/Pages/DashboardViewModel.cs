@@ -19,7 +19,7 @@ namespace CHPanel.ViewModels.Pages {
 		}
 
 		private async void LoadServers() {
-			ServerList? info = await HttpUtil.GetAsync<ServerList>("api/client", AuthData.apiKey);
+			ServerList? info = await HttpUtil.GetAsync<ServerList>("api/client");
 
 			if (info == null)
 				return;
@@ -27,7 +27,7 @@ namespace CHPanel.ViewModels.Pages {
 			List<ServerData> newServers = new();
             
 			foreach (ServerInfo server in info.data.Where(server => server.attributes != null)) {
-				ServerResources? resources = await HttpUtil.GetAsync<ServerResources>($"api/client/servers/{server.attributes!.identifier}/resources", AuthData.apiKey);
+				ServerResources? resources = await HttpUtil.GetAsync<ServerResources>($"api/client/servers/{server.attributes!.identifier}/resources");
 				if (resources == null)
 					continue;
 				
