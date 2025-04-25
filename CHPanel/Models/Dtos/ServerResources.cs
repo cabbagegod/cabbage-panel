@@ -18,8 +18,8 @@ public class ServerResources {
 		public long memory_bytes { get; set; }
 		public double cpu_absolute { get; set; }
 		public long disk_bytes { get; set; }
-		public int network_rx_bytes { get; set; }
-		public int network_tx_bytes { get; set; }
+		public long network_rx_bytes { get; set; }
+		public long network_tx_bytes { get; set; }
 		public long uptime { get; set; }
 	}
 }
